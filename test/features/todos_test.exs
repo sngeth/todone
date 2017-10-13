@@ -12,6 +12,5 @@ defmodule Todone.ViewTodoTest do
     |> assert_has(css("h2", text: "Show Todo"))
     |> assert_has(css("ul > li", text: "Description: Learn Elixir"))
     |> assert_has(css(".alert-info", text: "Todo created successfully."))
-
   end
 end

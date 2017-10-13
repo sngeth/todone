@@ -17,6 +17,8 @@ defmodule TodoneWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/log_in", PageController, :log_in
+    get "/sign_up", PageController, :sign_up
     resources "/todos", TodoController
   end
 
