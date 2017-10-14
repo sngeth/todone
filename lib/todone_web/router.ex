@@ -20,6 +20,7 @@ defmodule TodoneWeb.Router do
     get "/log_in", PageController, :log_in
     get "/sign_up", PageController, :sign_up
     resources "/todos", TodoController
+    resources "/registrations", RegistrationController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.
