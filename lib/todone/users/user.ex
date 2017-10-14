@@ -7,6 +7,7 @@ defmodule Todone.Users.User do
   schema "users" do
     field :crypted_password, :string
     field :email, :string
+    field :password, :string, virtual: true
 
     timestamps()
   end
@@ -14,8 +15,10 @@ defmodule Todone.Users.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:email, :crypted_password])
-    |> validate_required([:email, :crypted_password])
+    |> cast(attrs, [:email, :password])
+    |> validate_required([:email, :password])
     |> unique_constraint(:email)
+    |> validate_format(:email, ~r/@/)
+    |> validate_length(:password, min: 5)
   end
 end

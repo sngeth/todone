@@ -11,5 +11,6 @@ defmodule Todone.UserTest do
     |> fill_in(text_field("Email"), with: "test@test.com")
     |> fill_in(text_field("Password"), with: "test123")
     |> click(button("Submit"))
+    |> assert_has(css(".alert", text: "Your account was created"))
   end
 end

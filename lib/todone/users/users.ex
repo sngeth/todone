@@ -4,6 +4,7 @@ defmodule Todone.Users do
   """
 
   import Ecto.Query, warn: false
+  import Ecto.Changeset, only: [put_change: 3]
   alias Todone.Repo
 
   alias Todone.Users.User
@@ -52,7 +53,12 @@ defmodule Todone.Users do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
+    |> put_change(:crypted_password, hashed_password(attrs["password"]))
     |> Repo.insert()
+  end
+
+  defp hashed_password(password) do
+    Comeonin.Bcrypt.hashpwsalt(password)
   end
 
   @doc """

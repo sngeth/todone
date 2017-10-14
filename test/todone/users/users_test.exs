@@ -6,9 +6,9 @@ defmodule Todone.UsersTest do
   describe "users" do
     alias Todone.Users.User
 
-    @valid_attrs %{crypted_password: "some crypted_password", email: "some email"}
-    @update_attrs %{crypted_password: "some updated crypted_password", email: "some updated email"}
-    @invalid_attrs %{crypted_password: nil, email: nil}
+    @valid_attrs %{"password" => "some crypted_password", "email" => "example@example.com"}
+    @update_attrs %{"password" => "some updated crypted_password", "email" => "updated@example.com"}
+    @invalid_attrs %{"password" => "1234", "email" => nil}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -16,7 +16,7 @@ defmodule Todone.UsersTest do
         |> Enum.into(@valid_attrs)
         |> Users.create_user()
 
-      user
+      %{ user | password: nil }
     end
 
     test "list_users/0 returns all users" do
@@ -31,8 +31,7 @@ defmodule Todone.UsersTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
-      assert user.crypted_password == "some crypted_password"
-      assert user.email == "some email"
+      assert user.email == "example@example.com"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -43,8 +42,7 @@ defmodule Todone.UsersTest do
       user = user_fixture()
       assert {:ok, user} = Users.update_user(user, @update_attrs)
       assert %User{} = user
-      assert user.crypted_password == "some updated crypted_password"
-      assert user.email == "some updated email"
+      assert user.email == "updated@example.com"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
