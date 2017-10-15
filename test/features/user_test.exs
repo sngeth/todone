@@ -11,6 +11,18 @@ defmodule Todone.UserTest do
     |> fill_in(text_field("Email"), with: "test@test.com")
     |> fill_in(text_field("Password"), with: "test123")
     |> click(button("Submit"))
-    |> assert_has(css(".alert", text: "Your account was created"))
+    |> assert_has(css(".alert-info", text: "Your account was created"))
+  end
+
+  test "Signing up an invalid new user", %{session: session} do
+    session
+    |> visit("/")
+    |> click(link("Register"))
+    |> assert_has(css("h2", test: "Sign up"))
+    |> fill_in(text_field("Email"), with: "")
+    |> fill_in(text_field("Password"), with: "")
+    |> click(button("Submit"))
+    |> assert_has(css(".alert-danger", text: "Unable to create account"))
+    |> assert_has(css("span", text: "can't be blank", count: 2))
   end
 end
