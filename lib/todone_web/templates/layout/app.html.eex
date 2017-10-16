@@ -13,11 +13,12 @@
 
   <body>
     <div class="container">
-      <header class="header">
-        <nav role="navigation">
+      <header class="header clearfix">
+        <nav>
           <ul class="nav nav-pills pull-right">
+              <li><a href="/">Home</a></li>
             <%= if logged_in?(@conn) do %>
-              <li><%= current_user(@conn).email %></li>
+              <li><a href="#"><%= current_user(@conn).email %></a></li>
               <li><%= link "Log out", to: session_path(@conn, :delete), method: :delete %></li>
             <% else %>
               <li><%= link "Log in", to: "/login" %></li>
@@ -25,7 +26,7 @@
             <% end %>
           </ul>
         </nav>
-        <span class="logo"></span>
+        <h3 class="text-muted">Todone</h3>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
