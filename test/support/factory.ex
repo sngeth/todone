@@ -5,7 +5,10 @@ defmodule Todone.Factory do
   alias Todone.Todos.Todo
 
   def build(:user) do
-    %User{email: "test@test.com"}
+    %User{
+      email: "test@test.com",
+      crypted_password: Comeonin.Bcrypt.hashpwsalt("password")
+    }
   end
 
   def build(:todo) do
