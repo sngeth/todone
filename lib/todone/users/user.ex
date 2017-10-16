@@ -2,12 +2,13 @@ defmodule Todone.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias Todone.Users.User
-
+  alias Todone.Todos.Todo
 
   schema "users" do
     field :crypted_password, :string
     field :email, :string
     field :password, :string, virtual: true
+    has_many :todos, Todo
 
     timestamps()
   end
