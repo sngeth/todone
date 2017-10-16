@@ -13,6 +13,7 @@ defmodule TodoneWeb.RegistrationController do
     case Users.create_user(user_params) do
       {:ok, user} ->
         conn
+        |> put_session(:current_user, user.id)
         |> put_flash(:info, "Your account was created")
         |> redirect(to: "/")
       {:error, %Ecto.Changeset{} = changeset} ->

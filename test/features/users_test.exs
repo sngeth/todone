@@ -54,4 +54,18 @@ defmodule Todone.UserTest do
     |> click(button("Login"))
     |> assert_has(css(".alert-info", text: "Wrong email or password"))
   end
+
+  test "Logging out", %{session: session} do
+    Factory.insert!(:user, email: "test@test.com")
+
+    session
+    |> visit("/")
+    |> click(link("Log in"))
+    |> assert_has(css("h2", test: "Log in"))
+    |> fill_in(text_field("Email"), with: "test@test.com")
+    |> fill_in(text_field("Password"), with: "password")
+    |> click(button("Login"))
+    |> click(link("Log out"))
+    |> assert_has(css(".alert-info", text: "Logged out"))
+  end
 end

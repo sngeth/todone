@@ -40,6 +40,8 @@ defmodule TodoneWeb do
       import TodoneWeb.Router.Helpers
       import TodoneWeb.ErrorHelpers
       import TodoneWeb.Gettext
+
+      import TodoneWeb.Session, only: [current_user: 1, logged_in?: 1]
     end
   end
 

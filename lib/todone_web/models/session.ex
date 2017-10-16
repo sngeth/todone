@@ -10,6 +10,13 @@ defmodule TodoneWeb.Session do
     end
   end
 
+  def current_user(conn) do
+    id = Plug.Conn.get_session(conn, :current_user)
+    if id, do: Todone.Repo.get(User, id)
+  end
+
+  def logged_in?(conn), do: current_user(conn)
+
   defp authenticate(user, password) do
     case user do
       nil -> false
