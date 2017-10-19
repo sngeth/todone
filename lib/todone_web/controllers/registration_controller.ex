@@ -15,7 +15,7 @@ defmodule TodoneWeb.RegistrationController do
         conn
         |> put_session(:current_user, user.id)
         |> put_flash(:info, "Your account was created")
-        |> redirect(to: "/")
+        |> redirect(to: "/todos")
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_flash(:error, "Unable to create account")

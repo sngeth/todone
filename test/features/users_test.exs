@@ -15,6 +15,7 @@ defmodule Todone.UserTest do
     |> fill_in(text_field("Password"), with: "test123")
     |> click(button("Submit"))
     |> assert_has(css(".alert-info", text: "Your account was created"))
+    |> assert_has(css("h2", text: "Listing Todos"))
   end
 
   test "Signing up an invalid new user", %{session: session} do
@@ -40,6 +41,7 @@ defmodule Todone.UserTest do
     |> fill_in(text_field("Password"), with: "password")
     |> click(button("Login"))
     |> assert_has(css(".alert-info", text: "Logged in"))
+    |> assert_has(css("h2", text: "Listing Todos"))
   end
 
   test "Logging in with wrong password", %{session: session} do
