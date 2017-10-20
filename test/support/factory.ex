@@ -3,6 +3,7 @@ defmodule Todone.Factory do
   alias Todone.Repo
   alias Todone.Users.User
   alias Todone.Todos.Todo
+  alias Todone.Categories.Category
 
   def build(:user) do
     %User{
@@ -15,6 +16,10 @@ defmodule Todone.Factory do
     %Todo{description: "A todo",
       user: find_first_or_build(:user)
     }
+  end
+
+  def build(:category) do
+    %Category{name: "Career"}
   end
 
   def build(factory_name, attributes) do

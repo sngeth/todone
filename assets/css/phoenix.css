@@ -10,7 +10,7 @@
 
 /* Space out content a bit */
 body, form, ul, table {
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 20px;
 }
 
@@ -35,7 +35,6 @@ body, form, ul, table {
 .marketing {
   padding-right: 15px;
   padding-left: 15px;
-  padding-bottom: 20px;
 }
 
 /* Customize container */

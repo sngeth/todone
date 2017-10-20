@@ -1,8 +1,11 @@
 defmodule TodoneWeb.TodoController do
   use TodoneWeb, :controller
 
+  plug :load_categories when action in [:new, :create, :edit, :update]
+
   alias Todone.Todos
   alias Todone.Todos.Todo
+  alias Todone.Categories
 
   def index(conn, _params) do
     todos = Todos.list_todos()
@@ -56,5 +59,9 @@ defmodule TodoneWeb.TodoController do
     conn
     |> put_flash(:info, "Todo deleted successfully.")
     |> redirect(to: todo_path(conn, :index))
+  end
+
+  defp load_categories(conn, _) do
+    assign(conn, :categories, Categories.select_categories)
   end
 end

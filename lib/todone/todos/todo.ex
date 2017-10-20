@@ -3,6 +3,7 @@ defmodule Todone.Todos.Todo do
   import Ecto.Changeset
   alias Todone.Todos.Todo
   alias Todone.Users.User
+  alias Todone.Categories.Category
 
 
   schema "todos" do

@@ -23,6 +23,4 @@
   </tbody>
 </table>
 
-<%= if length(@todos) == 0 do %>
-  <span><%= link "New Todo", to: todo_path(@conn, :new) %></span>
-<% end %>
+<span><%= link "New Todo", to: todo_path(@conn, :new) %></span>
