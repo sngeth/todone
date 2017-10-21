@@ -9,6 +9,7 @@ defmodule Todone.Todos.Todo do
   schema "todos" do
     field :description, :string
     belongs_to :user, User
+    belongs_to :category, Category
 
     timestamps()
   end
