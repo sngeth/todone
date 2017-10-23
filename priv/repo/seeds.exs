@@ -9,14 +9,3 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-#
-alias Todone.Repo
-alias Todone.Categories.Category
-
-Repo.insert! %Category{
-  name: "Career"
-}
-
-Repo.insert! %Category{
-  name: "Health"
-}
