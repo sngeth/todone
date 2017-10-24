@@ -18,6 +18,8 @@ defmodule TodoneWeb.TodoController do
   end
 
   def create(conn, %{"todo" => todo_params}) do
+    todo_params = Map.put(todo_params, :user, current_user(conn))
+
     case Todos.create_todo(todo_params) do
       {:ok, todo} ->
         conn

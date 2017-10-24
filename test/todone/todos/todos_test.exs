@@ -1,7 +1,10 @@
+require IEx
+
 defmodule Todone.TodosTest do
   use Todone.DataCase
 
   alias Todone.Todos
+  alias Todone.Users
 
   describe "todos" do
     alias Todone.Todos.Todo
@@ -9,14 +12,25 @@ defmodule Todone.TodosTest do
     @valid_attrs %{description: "some description"}
     @update_attrs %{description: "some updated description"}
     @invalid_attrs %{description: nil}
+    @user_attrs %{"password" => "some crypted_password", "email" => "example@example.com"}
 
     def todo_fixture(attrs \\ %{}) do
       {:ok, todo} =
         attrs
+        |> Map.put(:user, user_fixture())
         |> Enum.into(@valid_attrs)
         |> Todos.create_todo()
 
       todo
+    end
+
+    def user_fixture(attrs \\ %{}) do
+      {:ok, user} =
+        attrs
+        |> Enum.into(@user_attrs)
+        |> Users.create_user()
+
+      %{ user | password: nil }
     end
 
     test "list_todos/0 returns all todos" do
@@ -30,8 +44,12 @@ defmodule Todone.TodosTest do
     end
 
     test "create_todo/1 with valid data creates a todo" do
-      assert {:ok, %Todo{} = todo} = Todos.create_todo(@valid_attrs)
+      user = user_fixture()
+      todo_attrs = Map.put(@valid_attrs, :user, user)
+
+      assert {:ok, %Todo{} = todo} = Todos.create_todo(todo_attrs)
       assert todo.description == "some description"
+      assert todo.user_id == user.id
     end
 
     test "create_todo/1 with invalid data returns error changeset" do

@@ -18,7 +18,7 @@ defmodule Todone.Todos do
 
   """
   def list_todos do
-    Repo.all(Todo)
+    Repo.all(Todo) |> Repo.preload(:user)
   end
 
   @doc """
@@ -35,7 +35,9 @@ defmodule Todone.Todos do
       ** (Ecto.NoResultsError)
 
   """
-  def get_todo!(id), do: Repo.get!(Todo, id)
+  def get_todo!(id) do
+    Repo.get!(Todo, id) |> Repo.preload(:user)
+  end
 
   @doc """
   Creates a todo.
@@ -52,6 +54,7 @@ defmodule Todone.Todos do
   def create_todo(attrs \\ %{}) do
     %Todo{}
     |> Todo.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:user, attrs[:user])
     |> Repo.insert()
   end
 

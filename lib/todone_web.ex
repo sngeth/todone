@@ -23,6 +23,7 @@ defmodule TodoneWeb do
       import Plug.Conn
       import TodoneWeb.Router.Helpers
       import TodoneWeb.Gettext
+      import TodoneWeb.Session, only: [current_user: 1, logged_in?: 1]
     end
   end
 
