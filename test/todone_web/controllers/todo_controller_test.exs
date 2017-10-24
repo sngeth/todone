@@ -4,6 +4,7 @@ defmodule TodoneWeb.TodoControllerTest do
 
   alias Todone.Todos
   alias Todone.Users
+  alias Todone.Factory
 
   @create_attrs %{"description" => "some description"}
   @update_attrs %{"description" => "some updated description"}
@@ -11,7 +12,11 @@ defmodule TodoneWeb.TodoControllerTest do
   @user_attrs %{"password" => "some crypted_password", "email" => "example@example.com"}
 
   def fixture(:todo) do
+    category = Factory.insert!(:category)
+
     todo_attrs = Map.put(@create_attrs, "user", user_fixture())
+                  |> Map.put("category_id", category.id)
+
     {:ok, todo} = Todos.create_todo(todo_attrs)
     todo
   end
@@ -46,9 +51,11 @@ defmodule TodoneWeb.TodoControllerTest do
   describe "create todo" do
     test "redirects to show when data is valid", %{conn: conn} do
       user = user_fixture()
+      category = Factory.insert!(:category)
+      todo_attrs = Map.put(@create_attrs, "category_id", category.id)
 
       conn = init_test_session(conn, current_user: user.id)
-             |> post(todo_path(conn, :create), todo: @create_attrs)
+             |> post(todo_path(conn, :create), todo: todo_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == todo_path(conn, :show, id)

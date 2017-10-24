@@ -17,7 +17,7 @@ defmodule Todone.Todos.Todo do
   @doc false
   def changeset(%Todo{} = todo, attrs) do
     todo
-    |> cast(attrs, [:description])
+    |> cast(attrs, [:description, :category_id])
     |> validate_required([:description])
   end
 end

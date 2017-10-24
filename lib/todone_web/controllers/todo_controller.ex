@@ -9,6 +9,8 @@ defmodule TodoneWeb.TodoController do
 
   def index(conn, _params) do
     todos = Todone.Repo.all(my_todos(current_user(conn)))
+            |> Todone.Repo.preload(:category)
+
     render(conn, "index.html", todos: todos)
   end
 
@@ -32,6 +34,8 @@ defmodule TodoneWeb.TodoController do
 
   def show(conn, %{"id" => id}) do
     todo = Todone.Repo.get!(my_todos(current_user(conn)), id)
+            |> Todone.Repo.preload(:category)
+
     render(conn, "show.html", todo: todo)
   end
 

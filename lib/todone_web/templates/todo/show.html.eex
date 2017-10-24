@@ -6,6 +6,10 @@
     <strong>Description:</strong>
     <%= @todo.description %>
   </li>
+  <li>
+    <strong>Category:</strong>
+    <%= @todo.category.name %>
+  </li>
 
 </ul>
 

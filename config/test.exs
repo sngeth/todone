@@ -18,4 +18,5 @@ config :todone, Todone.Repo,
   password: "postgres",
   database: "todone_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  timeout: 60_000

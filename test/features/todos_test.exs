@@ -28,7 +28,8 @@ defmodule Todone.ViewTodoTest do
   test "Only list todos created by user", %{session: session} do
     user = Factory.insert!(:user)
     user2 = Factory.insert!(:user, email: "test2@test.com")
-    Factory.insert!(:todo, description: "Learn Elixir", user: user)
+    category = Factory.insert!(:category, description: "Career", user: user)
+    Factory.insert!(:todo, description: "Learn Elixir", category: category, user: user)
     Factory.insert!(:todo, description: "Learn Elm", user: user2)
 
     session
@@ -40,6 +41,7 @@ defmodule Todone.ViewTodoTest do
     |> click(button("Login"))
     |> click(link("Dashboard"))
     |> assert_has(css("td", text: "Learn Elixir"))
+    |> assert_has(css("td", text: "Career"))
     |> refute_has(css("td", text: "Learn Elm"))
   end
 end

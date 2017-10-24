@@ -18,7 +18,7 @@ defmodule Todone.Todos do
 
   """
   def list_todos do
-    Repo.all(Todo) |> Repo.preload(:user)
+    Repo.all(Todo) |> Repo.preload([:user])
   end
 
   @doc """
@@ -36,7 +36,7 @@ defmodule Todone.Todos do
 
   """
   def get_todo!(id) do
-    Repo.get!(Todo, id) |> Repo.preload(:user)
+    Repo.get!(Todo, id) |> Repo.preload([:user])
   end
 
   @doc """
@@ -52,6 +52,7 @@ defmodule Todone.Todos do
 
   """
   def create_todo(attrs \\ %{}) do
+
     %Todo{}
     |> Todo.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, attrs["user"])
@@ -59,7 +60,7 @@ defmodule Todone.Todos do
   end
 
   @doc """
-  Updates a todo.
+  Ujpdates a todo.
 
   ## Examples
 

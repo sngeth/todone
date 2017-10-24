@@ -56,3 +56,4 @@ config :todone, Todone.Repo,
   database: "todone_dev",
   hostname: "localhost",
   pool_size: 10
+

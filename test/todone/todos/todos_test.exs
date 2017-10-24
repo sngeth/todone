@@ -1,10 +1,9 @@
-require IEx
-
 defmodule Todone.TodosTest do
   use Todone.DataCase
 
   alias Todone.Todos
   alias Todone.Users
+  alias Todone.Factory
 
   describe "todos" do
     alias Todone.Todos.Todo
@@ -15,9 +14,12 @@ defmodule Todone.TodosTest do
     @user_attrs %{"password" => "some crypted_password", "email" => "example@example.com"}
 
     def todo_fixture(attrs \\ %{}) do
+      category = Factory.insert!(:category)
+
       {:ok, todo} =
         attrs
         |> Map.put("user", user_fixture())
+        |> Map.put("category_id", category.id)
         |> Enum.into(@valid_attrs)
         |> Todos.create_todo()
 
