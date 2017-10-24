@@ -54,7 +54,7 @@ defmodule Todone.Todos do
   def create_todo(attrs \\ %{}) do
     %Todo{}
     |> Todo.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:user, attrs[:user])
+    |> Ecto.Changeset.put_assoc(:user, attrs["user"])
     |> Repo.insert()
   end
 

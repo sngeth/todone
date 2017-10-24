@@ -25,9 +25,11 @@ defmodule Todone.ViewTodoTest do
     |> assert_has(css(".alert-info", text: "Todo created successfully."))
   end
 
-  test "List with existing todo", %{session: session} do
-    Factory.insert!(:user)
-    Factory.insert!(:todo, description: "Learn Elixir")
+  test "Only list todos created by user", %{session: session} do
+    user = Factory.insert!(:user)
+    user2 = Factory.insert!(:user, email: "test2@test.com")
+    Factory.insert!(:todo, description: "Learn Elixir", user: user)
+    Factory.insert!(:todo, description: "Learn Elm", user: user2)
 
     session
     |> visit("/")
@@ -37,15 +39,7 @@ defmodule Todone.ViewTodoTest do
     |> fill_in(text_field("Password"), with: "password")
     |> click(button("Login"))
     |> click(link("Dashboard"))
-  end
-
-  test "Show a todo", %{session: session} do
-    Factory.insert!(:user)
-    todo = Factory.insert!(:todo, description: "Learn Elixir")
-
-    session
-    |> visit("/todos/#{todo.id}")
-    |> assert_has(css("h2", text: "Show Todo"))
-    |> assert_has(css("ul > li", text: "Description: Learn Elixir"))
+    |> assert_has(css("td", text: "Learn Elixir"))
+    |> refute_has(css("td", text: "Learn Elm"))
   end
 end

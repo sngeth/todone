@@ -1,20 +1,37 @@
 defmodule TodoneWeb.TodoControllerTest do
   use TodoneWeb.ConnCase
+  use Plug.Test
 
   alias Todone.Todos
+  alias Todone.Users
 
-  @create_attrs %{description: "some description"}
-  @update_attrs %{description: "some updated description"}
-  @invalid_attrs %{description: nil}
+  @create_attrs %{"description" => "some description"}
+  @update_attrs %{"description" => "some updated description"}
+  @invalid_attrs %{"description" => nil}
+  @user_attrs %{"password" => "some crypted_password", "email" => "example@example.com"}
 
   def fixture(:todo) do
-    {:ok, todo} = Todos.create_todo(@create_attrs)
+    todo_attrs = Map.put(@create_attrs, "user", user_fixture())
+    {:ok, todo} = Todos.create_todo(todo_attrs)
     todo
+  end
+
+  def user_fixture(attrs \\ %{}) do
+    {:ok, user} =
+      attrs
+      |> Enum.into(@user_attrs)
+      |> Users.create_user()
+
+    %{ user | password: nil }
   end
 
   describe "index" do
     test "lists all todos", %{conn: conn} do
-      conn = get conn, todo_path(conn, :index)
+      user = user_fixture()
+
+      conn = init_test_session(conn, current_user: user.id)
+             |> get(todo_path(conn, :index))
+
       assert html_response(conn, 200) =~ "Listing Todos"
     end
   end
@@ -28,7 +45,10 @@ defmodule TodoneWeb.TodoControllerTest do
 
   describe "create todo" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post conn, todo_path(conn, :create), todo: @create_attrs
+      user = user_fixture()
+
+      conn = init_test_session(conn, current_user: user.id)
+             |> post(todo_path(conn, :create), todo: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == todo_path(conn, :show, id)
@@ -47,7 +67,9 @@ defmodule TodoneWeb.TodoControllerTest do
     setup [:create_todo]
 
     test "renders form for editing chosen todo", %{conn: conn, todo: todo} do
-      conn = get conn, todo_path(conn, :edit, todo)
+      conn = init_test_session(conn, current_user: todo.user.id)
+             |> get(todo_path(conn, :edit, todo))
+
       assert html_response(conn, 200) =~ "Edit Todo"
     end
   end
@@ -56,7 +78,10 @@ defmodule TodoneWeb.TodoControllerTest do
     setup [:create_todo]
 
     test "redirects when data is valid", %{conn: conn, todo: todo} do
-      conn = put conn, todo_path(conn, :update, todo), todo: @update_attrs
+
+      conn = init_test_session(conn, current_user: todo.user.id)
+             |> put(todo_path(conn, :update, todo), todo: @update_attrs)
+
       assert redirected_to(conn) == todo_path(conn, :show, todo)
 
       conn = get conn, todo_path(conn, :show, todo)
@@ -73,7 +98,10 @@ defmodule TodoneWeb.TodoControllerTest do
     setup [:create_todo]
 
     test "deletes chosen todo", %{conn: conn, todo: todo} do
-      conn = delete conn, todo_path(conn, :delete, todo)
+
+      conn = init_test_session(conn, current_user: todo.user.id)
+             |> delete(todo_path(conn, :delete, todo))
+
       assert redirected_to(conn) == todo_path(conn, :index)
       assert_error_sent 404, fn ->
         get conn, todo_path(conn, :show, todo)

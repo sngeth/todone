@@ -3,11 +3,14 @@ defmodule Mix.Tasks.Todone.Seed do
   alias Todone.Repo
   alias Todone.Repo
   alias Todone.Categories.Category
-  import Ecto
 
   def run(_) do
     Mix.Task.run "app.start", []
     seed(Mix.env)
+  end
+
+  def seed(:test) do
+    # do nothing
   end
 
   def seed(:dev) do

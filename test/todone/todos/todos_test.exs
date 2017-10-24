@@ -9,15 +9,15 @@ defmodule Todone.TodosTest do
   describe "todos" do
     alias Todone.Todos.Todo
 
-    @valid_attrs %{description: "some description"}
-    @update_attrs %{description: "some updated description"}
-    @invalid_attrs %{description: nil}
+    @valid_attrs %{"description" => "some description"}
+    @update_attrs %{"description" => "some updated description"}
+    @invalid_attrs %{"description" => nil}
     @user_attrs %{"password" => "some crypted_password", "email" => "example@example.com"}
 
     def todo_fixture(attrs \\ %{}) do
       {:ok, todo} =
         attrs
-        |> Map.put(:user, user_fixture())
+        |> Map.put("user", user_fixture())
         |> Enum.into(@valid_attrs)
         |> Todos.create_todo()
 
@@ -45,7 +45,7 @@ defmodule Todone.TodosTest do
 
     test "create_todo/1 with valid data creates a todo" do
       user = user_fixture()
-      todo_attrs = Map.put(@valid_attrs, :user, user)
+      todo_attrs = Map.put(@valid_attrs, "user", user)
 
       assert {:ok, %Todo{} = todo} = Todos.create_todo(todo_attrs)
       assert todo.description == "some description"

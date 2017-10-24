@@ -8,7 +8,7 @@ defmodule TodoneWeb.TodoController do
   alias Todone.Categories
 
   def index(conn, _params) do
-    todos = Todos.list_todos()
+    todos = Todone.Repo.all(my_todos(current_user(conn)))
     render(conn, "index.html", todos: todos)
   end
 
@@ -18,7 +18,7 @@ defmodule TodoneWeb.TodoController do
   end
 
   def create(conn, %{"todo" => todo_params}) do
-    todo_params = Map.put(todo_params, :user, current_user(conn))
+    todo_params = Map.put(todo_params, "user", current_user(conn))
 
     case Todos.create_todo(todo_params) do
       {:ok, todo} ->
@@ -31,7 +31,7 @@ defmodule TodoneWeb.TodoController do
   end
 
   def show(conn, %{"id" => id}) do
-    todo = Todos.get_todo!(id)
+    todo = Todone.Repo.get!(my_todos(current_user(conn)), id)
     render(conn, "show.html", todo: todo)
   end
 
@@ -65,5 +65,9 @@ defmodule TodoneWeb.TodoController do
 
   defp load_categories(conn, _) do
     assign(conn, :categories, Categories.select_categories)
+  end
+
+  defp my_todos(user) do
+    Ecto.assoc(user, :todos)
   end
 end
