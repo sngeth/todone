@@ -13,7 +13,7 @@
 <%= for todo <- @todos do %>
     <tr>
       <td><%= todo.description %></td>
-      <td><%= todo.category.name %></td>
+      <td><%= category_name(todo.category) %></td>
 
       <td class="text-right">
         <span><%= link "Show", to: todo_path(@conn, :show, todo), class: "btn btn-default btn-xs" %></span>

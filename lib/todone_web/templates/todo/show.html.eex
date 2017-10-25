@@ -8,7 +8,7 @@
   </li>
   <li>
     <strong>Category:</strong>
-    <%= @todo.category.name %>
+    <%= category_name(@todo.category) %>
   </li>
 
 </ul>
