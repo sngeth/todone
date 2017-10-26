@@ -60,7 +60,7 @@ defmodule Todone.Todos do
   end
 
   @doc """
-  Ujpdates a todo.
+  Updates a todo.
 
   ## Examples
 
@@ -104,5 +104,12 @@ defmodule Todone.Todos do
   """
   def change_todo(%Todo{} = todo) do
     Todo.changeset(todo, %{})
+  end
+
+  @doc """
+  Completes a Todo.
+  """
+  def complete_todo(%Todo{} = todo) do
+    {:ok, todo}
   end
 end

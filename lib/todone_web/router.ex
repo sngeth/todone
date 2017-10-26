@@ -17,7 +17,10 @@ defmodule TodoneWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/todos", TodoController
+    resources "/todos", TodoController do
+      post "/complete", TodoController, :complete, as: :complete
+    end
+
     resources "/registrations", RegistrationController, only: [:new, :create]
 
     get "/login", SessionController, :new

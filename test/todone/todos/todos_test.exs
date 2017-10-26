@@ -81,5 +81,11 @@ defmodule Todone.TodosTest do
       todo = todo_fixture()
       assert %Ecto.Changeset{} = Todos.change_todo(todo)
     end
+
+    test "complete_todo/1 completes a todo" do
+      todo = todo_fixture()
+      Todos.complete_todo(todo)
+      assert length(todo.completions) == 1
+    end
   end
 end

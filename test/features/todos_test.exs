@@ -44,4 +44,19 @@ defmodule Todone.ViewTodoTest do
     |> assert_has(css("td", text: "Career"))
     |> refute_has(css("td", text: "Learn Elm"))
   end
+
+  test "User can complete a todo", %{session: session} do
+    user = Factory.insert!(:user)
+    category = Factory.insert!(:category, description: "Career", user: user)
+    Factory.insert!(:todo, description: "Learn Elixir", category: category, user: user)
+
+    session
+    |> visit("/")
+    |> click(link("Log in"))
+    |> assert_has(css("h2", test: "Log in"))
+    |> fill_in(text_field("Email"), with: "test@test.com")
+    |> fill_in(text_field("Password"), with: "password")
+    |> click(button("Login"))
+    |> click(link("Completed"))
+  end
 end

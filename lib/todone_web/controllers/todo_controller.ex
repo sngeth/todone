@@ -67,6 +67,15 @@ defmodule TodoneWeb.TodoController do
     |> redirect(to: todo_path(conn, :index))
   end
 
+  def complete(conn, %{"todo_id" => id}) do
+    todo = Todos.get_todo!(id)
+    {:ok, _todo} = Todos.complete_todo(todo)
+
+    conn
+    |> put_flash(:info, "Todo completed for today!")
+    |> redirect(to: todo_path(conn, :index))
+  end
+
   defp load_categories(conn, _) do
     assign(conn, :categories, Categories.select_categories)
   end

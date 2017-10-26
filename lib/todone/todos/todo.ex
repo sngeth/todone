@@ -4,12 +4,13 @@ defmodule Todone.Todos.Todo do
   alias Todone.Todos.Todo
   alias Todone.Users.User
   alias Todone.Categories.Category
-
+  alias Todone.Completions.Completion
 
   schema "todos" do
     field :description, :string
     belongs_to :user, User
     belongs_to :category, Category
+    has_many :completions, Completion
 
     timestamps()
   end
