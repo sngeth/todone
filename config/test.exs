@@ -19,4 +19,5 @@ config :todone, Todone.Repo,
   database: "todone_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox,
-  timeout: 60_000
+  timeout: 60_000,
+  ownership_timeout: :infinity

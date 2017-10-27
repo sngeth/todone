@@ -1,3 +1,5 @@
+require IEx
+
 defmodule Todone.TodosTest do
   use Todone.DataCase
 
@@ -85,6 +87,9 @@ defmodule Todone.TodosTest do
     test "complete_todo/1 completes a todo" do
       todo = todo_fixture()
       Todos.complete_todo(todo)
+
+      todo = Todos.get_todo!(todo.id) |> Todone.Repo.preload(:completions)
+
       assert length(todo.completions) == 1
     end
   end

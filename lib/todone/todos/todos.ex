@@ -1,3 +1,5 @@
+require IEx
+
 defmodule Todone.Todos do
   @moduledoc """
   The Todos context.
@@ -7,6 +9,7 @@ defmodule Todone.Todos do
   alias Todone.Repo
 
   alias Todone.Todos.Todo
+  alias Todone.Completions.Completion
 
   @doc """
   Returns the list of todos.
@@ -110,6 +113,6 @@ defmodule Todone.Todos do
   Completes a Todo.
   """
   def complete_todo(%Todo{} = todo) do
-    {:ok, todo}
+    completed_todo = Repo.insert!(%Completion{todo_id: todo.id})
   end
 end

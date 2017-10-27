@@ -69,7 +69,7 @@ defmodule TodoneWeb.TodoController do
 
   def complete(conn, %{"todo_id" => id}) do
     todo = Todos.get_todo!(id)
-    {:ok, _todo} = Todos.complete_todo(todo)
+    Todos.complete_todo(todo)
 
     conn
     |> put_flash(:info, "Todo completed for today!")
