@@ -1,5 +1,3 @@
-require IEx
-
 defmodule Todone.Todos do
   @moduledoc """
   The Todos context.
@@ -113,6 +111,14 @@ defmodule Todone.Todos do
   Completes a Todo.
   """
   def complete_todo(%Todo{} = todo) do
-    completed_todo = Repo.insert!(%Completion{todo_id: todo.id})
+    if !completed_today?(todo), do: Repo.insert(%Completion{todo_id: todo.id})
+  end
+
+  def completed_today?(todo) do
+    today = Timex.format!(Timex.today, "%F", :strftime)
+
+    todo.completions |> Enum.any?(fn x ->
+      "#{x.inserted_at.year}-#{x.inserted_at.month}-#{x.inserted_at.day}" == today
+    end)
   end
 end

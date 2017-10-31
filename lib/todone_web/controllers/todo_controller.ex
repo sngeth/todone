@@ -68,7 +68,7 @@ defmodule TodoneWeb.TodoController do
   end
 
   def complete(conn, %{"todo_id" => id}) do
-    todo = Todos.get_todo!(id)
+    todo = Todos.get_todo!(id) |> Todone.Repo.preload(:completions)
     Todos.complete_todo(todo)
 
     conn

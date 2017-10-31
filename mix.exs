@@ -42,7 +42,8 @@ defmodule Todone.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:wallaby, "~> 0.19.1", only: :test},
-      {:comeonin, "~> 1.0"}
+      {:comeonin, "~> 1.0"},
+      {:timex, "~> 3.1"}
     ]
   end
 
