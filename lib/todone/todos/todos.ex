@@ -19,7 +19,7 @@ defmodule Todone.Todos do
 
   """
   def list_todos do
-    Repo.all(Todo) |> Repo.preload([:user])
+    Repo.all(Todo) |> Repo.preload([:user, :completions])
   end
 
   @doc """
@@ -37,7 +37,7 @@ defmodule Todone.Todos do
 
   """
   def get_todo!(id) do
-    Repo.get!(Todo, id) |> Repo.preload([:user])
+    Repo.get!(Todo, id) |> Repo.preload([:user, :completions])
   end
 
   @doc """

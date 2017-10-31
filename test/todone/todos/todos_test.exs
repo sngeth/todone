@@ -1,3 +1,5 @@
+require IEx
+
 defmodule Todone.TodosTest do
   use Todone.DataCase
 
@@ -23,7 +25,7 @@ defmodule Todone.TodosTest do
         |> Enum.into(@valid_attrs)
         |> Todos.create_todo()
 
-      todo
+      todo |> Todone.Repo.preload(:completions)
     end
 
     def user_fixture(attrs \\ %{}) do
@@ -86,7 +88,7 @@ defmodule Todone.TodosTest do
       todo = todo_fixture()
       Todos.complete_todo(todo)
 
-      todo = Todos.get_todo!(todo.id) |> Todone.Repo.preload(:completions)
+      todo = Todos.get_todo!(todo.id)
 
       assert length(todo.completions) == 1
     end
@@ -94,9 +96,9 @@ defmodule Todone.TodosTest do
     test "can only complete a todo once daily" do
       todo = todo_fixture()
       Todos.complete_todo(todo)
-      todo = Todos.get_todo!(todo.id) |> Todone.Repo.preload(:completions)
+      todo = Todos.get_todo!(todo.id)
       Todos.complete_todo(todo)
-      todo = Todos.get_todo!(todo.id) |> Todone.Repo.preload(:completions)
+      todo = Todos.get_todo!(todo.id)
 
       assert length(todo.completions) == 1
     end
