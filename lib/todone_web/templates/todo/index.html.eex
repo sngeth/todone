@@ -5,7 +5,7 @@
     <tr>
       <th>Description</th>
       <th>Category</th>
-      <th>Completed Today</th>
+      <th>Completion Status</th>
       <th></th>
     </tr>
   </thead>
@@ -14,10 +14,10 @@
     <tr>
       <td><%= todo.description %></td>
       <td><%= category_name(todo.category) %></td>
-      <td>False</td>
+      <td><%= todo_completed?(todo) %></td>
 
       <td class="text-right">
-        <span><%= link "Completed", to: todo_complete_path(@conn, :complete, todo), method: :post, class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Complete", to: todo_complete_path(@conn, :complete, todo), method: :post, class: "btn btn-default btn-xs" %></span>
         <span><%= link "Show", to: todo_path(@conn, :show, todo), class: "btn btn-default btn-xs" %></span>
         <span><%= link "Edit", to: todo_path(@conn, :edit, todo), class: "btn btn-default btn-xs" %></span>
         <span><%= link "Delete", to: todo_path(@conn, :delete, todo), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>

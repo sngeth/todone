@@ -1,5 +1,3 @@
-require IEx
-
 defmodule Todone.TodosTest do
   use Todone.DataCase
 

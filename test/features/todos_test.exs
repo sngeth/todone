@@ -57,6 +57,7 @@ defmodule Todone.ViewTodoTest do
     |> fill_in(text_field("Email"), with: "test@test.com")
     |> fill_in(text_field("Password"), with: "password")
     |> click(button("Login"))
-    |> click(link("Completed"))
+    |> click(link("Complete"))
+    |> assert_has(css("td", text: "Completed"))
   end
 end

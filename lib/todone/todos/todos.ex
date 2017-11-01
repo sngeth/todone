@@ -115,10 +115,12 @@ defmodule Todone.Todos do
   end
 
   def completed_today?(todo) do
-    today = Timex.format!(Timex.today, "%F", :strftime)
+    todo = todo |> Repo.preload(:completions)
+    today = Timex.format!(Timex.today, "%Y-%m-%d", :strftime)
 
     todo.completions |> Enum.any?(fn x ->
-      "#{x.inserted_at.year}-#{x.inserted_at.month}-#{x.inserted_at.day}" == today
+      inserted_at = NaiveDateTime.to_string(x.inserted_at) |> String.slice(0, 10)
+      inserted_at == today
     end)
   end
 end
