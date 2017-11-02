@@ -1,4 +1,5 @@
 # Todone
+[![Build Status](https://travis-ci.org/sngeth/todone.svg?branch=master)](https://travis-ci.org/sngeth/todone)
 
 To start your Phoenix server:
 
