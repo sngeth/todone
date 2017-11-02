@@ -72,7 +72,7 @@ defmodule TodoneWeb.TodoController do
     Todos.complete_todo(todo)
 
     conn
-    |> put_flash(:info, "Todo completed for today!")
+    |> put_flash(:info, "#{todo.description} completed for today!")
     |> redirect(to: todo_path(conn, :index))
   end
 

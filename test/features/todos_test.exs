@@ -59,5 +59,6 @@ defmodule Todone.ViewTodoTest do
     |> click(button("Login"))
     |> click(link("Complete"))
     |> assert_has(css("td", text: "Completed"))
+    |> assert_has(css(".alert-info", text: "Learn Elixir completed for today!"))
   end
 end
